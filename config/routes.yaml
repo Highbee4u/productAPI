@@ -1,0 +1,33 @@
+api_login_check:
+    path: /api/login_check
+
+app_product_index:
+    path: /product
+    methods: ['GET']
+    controller: 'App\Controller\ProductController::index'
+
+app_product_create:
+    path: /product
+    methods: ['POST']
+    controller: 'App\Controller\ProductController::create'
+
+app_product_show:
+    path: /product/{id}
+    methods: ['GET']
+    controller: 'App\Controller\ProductController::show'
+    requirements:
+        id: \d+  # Ensures id is a digit
+
+app_product_update:
+    path: /product/{id}
+    methods: ['PUT']
+    controller: 'App\Controller\ProductController::update'
+    requirements:
+        id: \d+  # Ensures id is a digit
+
+app_product_delete:
+    path: /product/{id}
+    methods: ['DELETE']
+    controller: 'App\Controller\ProductController::delete'
+    requirements:
+        id: \d+  # Ensures id is a digit
