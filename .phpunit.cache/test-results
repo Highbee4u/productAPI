@@ -1,0 +1,1 @@
+{"version":1,"defects":{"App\\Tests\\Controller\\ProductControllerTest::testCreateProduct":8,"App\\Tests\\Controller\\ProductControllerTest::testGetProduct":8,"App\\Tests\\Controller\\ProductControllerTest::testUpdateProduct":8,"App\\Tests\\Controller\\ProductControllerTest::testDeleteProduct":8,"App\\Tests\\Controller\\ProductControllerTest::testListProducts":8},"times":[]}
