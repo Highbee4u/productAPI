@@ -171,7 +171,6 @@ Access the API at `http://localhost:8000`.
 ## Additional Notes
 
 - **JWT Authentication**: This project uses JWT for authentication. Configure JWT keys in `.env` before deploying.
-- **Testing**: PHPUnit tests are available in the `/tests` directory. Run tests using `php bin/phpunit`.
-- **Future Development**: Plan to integrate user management and order processing features.
+- **Testing**: PHPUnit tests are available in the `/tests` directory. Run tests using `composer test`.
 
 
