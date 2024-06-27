@@ -85,7 +85,7 @@ class ProductController extends AbstractController
     #[Route('/{id}', methods: ['GET'])]
     public function show(int $id): JsonResponse
     {
-        $product = $this->productRepository->findOneById($id);
+        $product = $this->productRepository->findById($id);
 
         if (!$product) {
             return $this->json([
@@ -106,7 +106,7 @@ class ProductController extends AbstractController
     #[Route('/{id}', methods: ['PUT'])]
     public function update(Request $request, int $id): JsonResponse
     {
-        $product = $this->productRepository->findOneById($id);
+        $product = $this->productRepository->findById($id);
 
         if (!$product) {
             return $this->json([
@@ -146,7 +146,7 @@ class ProductController extends AbstractController
     #[Route('/{id}', methods: ['DELETE'])]
     public function delete(int $id): JsonResponse
     {
-        $product = $this->productRepository->findOneById($id);
+        $product = $this->productRepository->findById($id);
 
         if (!$product) {
             return $this->json([
