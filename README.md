@@ -81,7 +81,6 @@ Access the API at `http://localhost:8000`.
 - **Response**:
 
 ```
-
 [
 {
 "id": 1,
@@ -95,7 +94,6 @@ Access the API at `http://localhost:8000`.
 },
 ...
 ]
-
 
 ```
 
@@ -111,10 +109,11 @@ Access the API at `http://localhost:8000`.
 ...
 }
 
+```
+
 - **Response**:
 
 ```
-
 {
 "id": 3,
 "name": "New Product",
