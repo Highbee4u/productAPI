@@ -10,31 +10,39 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+
+
 
 class ProductController extends AbstractController
 {
     private $productRepository;
     private $validator;
+    private $entityManager;
+    private $serializer;
 
-    public function __construct(ProductRepository $productRepository, ValidatorInterface $validator)
+    public function __construct(EntityManagerInterface $entityManager, ProductRepository $productRepository, ValidatorInterface $validator, SerializerInterface $serializer)
     {
         $this->productRepository = $productRepository;
         $this->validator = $validator;
+        $this->entityManager = $entityManager;
+        $this->serializer = $serializer;
     }
     
 
     #[Route('/product', name: 'app_product')]
     public function index(): JsonResponse
     {
-        $page = $request->query->getInt('page', 1);
-        $limit = $request->query->getInt('limit', 10);
 
-        $products = $this->productRepository->findAllWithPagination($page, $limit);
+        $products = $this->productRepository->findAll();
+        $data = json_decode($this->serializer->serialize($products, 'json'));
 
+        
         return $this->json([
             'status' => true,
             'message' => 'all products',
-            'data' => $products
+            'data' => $data
         ]);
     }
 
@@ -43,12 +51,8 @@ class ProductController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        $product = new Product();
-        $product->setName($data['name']);
-        $product->setDescription($data['description']);
-        $product->setPrice($data['price']);
+        $errors = $this->validator->validate($data);
 
-        $errors = $this->validator->validate($product);
         if (count($errors) > 0) {
             return $this->json([
                 'status' => false,
@@ -57,12 +61,24 @@ class ProductController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $this->productRepository->create($product);
+
+        $productObj = new Product();
+        
+        $productObj->setName($data['name']);
+        $productObj->setDescription($data['description']);
+        $productObj->setPrice($data['price']);
+
+       
+        $this->entityManager->persist($productObj);
+        $this->entityManager->flush();
+
+        $data = json_decode($this->serializer->serialize($productObj, 'json'));
+
 
         return $this->json([
             'status' => true,
             'message' => 'Product created successfully',
-            'data' => $product
+            'data' => $data
         ], Response::HTTP_CREATED);
     }
 
@@ -78,10 +94,12 @@ class ProductController extends AbstractController
             ], Response::HTTP_NOT_FOUND);
         }
 
+        $data = json_decode($this->serializer->serialize($product, 'json'));
+
         return $this->json([
             'status' => true,
             'message' => 'Product detail',
-            'data' => $product
+            'data' => $data
         ], Response::HTTP_OK);
     }
 
@@ -113,12 +131,14 @@ class ProductController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $this->productRepository->updateProduct($product);
+        $this->entityManager->flush();
+
+        $data = json_decode($this->serializer->serialize($product, 'json'));
 
         return $this->json([
             'status' => true,
             'message' => 'Product record updated successfully',
-            'data' => $product
+            'data' => $data
         ], Response::HTTP_OK);
     }
 
@@ -135,11 +155,12 @@ class ProductController extends AbstractController
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $this->productRepository->remove($product);
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
 
         return $this->json([
             'status' => true,
             'message' => 'Product deleted successfully',
-        ], Response::HTTP_NO_CONTENT);
+        ], Response::HTTP_OK);
     }
 }

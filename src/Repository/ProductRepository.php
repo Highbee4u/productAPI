@@ -22,46 +22,5 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findAllWithPagination(int $page = 1, int $limit = 10): array
-    {
-        $query = $this->createQueryBuilder('p')
-            ->orderBy('p.id', 'ASC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit)
-            ->getQuery();
 
-        return new Paginator($query);
-    }
-
-    public function create(Product $product, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($product);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function findOneById(int $id): ?Product
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
-    }
-
-    public function updateProduct(Product $product): void
-    {
-        $this->getEntityManager()->flush();
-    }
-
-    public function remove(Product $product, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($product);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
 }
