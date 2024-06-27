@@ -1,0 +1,28 @@
+BUILDING AND RUNNING DOCKER CONTAINER
+
+Follow these steps to build and run the Docker container:
+
+1.  Build and run the container:
+    # to build the docker
+    Run Comand:
+    docker-compose up --build
+
+2.  Access the application:
+    # Base url
+    Open your web browser and go to http://localhost:8000.
+
+3.  Run Symfony commands inside the Docker container:
+
+    a.  Access the app container:
+        
+        # Access the app container
+        docker exec -it symfony_app bash
+    
+    b.  Run database migrations and seeders:
+
+        # create migration
+        php bin/console doctrine:migrations:migrate
+
+        # create the seeder file
+        php bin/console doctrine:fixtures:load
+
