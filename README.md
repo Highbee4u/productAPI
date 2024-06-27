@@ -55,7 +55,7 @@ This project implements a RESTful API using Symfony 5.4+ for managing products. 
 
 6. Start the Symfony server:
 
-```
+
 Access the API at `http://localhost:8000`.
 
 ### Default User Login
@@ -176,4 +176,3 @@ Access the API at `http://localhost:8000`.
 - **Future Development**: Plan to integrate user management and order processing features.
 
 
-```
