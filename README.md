@@ -60,9 +60,9 @@ Access the API at `http://localhost:8000`.
 
 ### Default User Login
 
-Login endpoint http://localhost:8000/api/login_check
-Username: admin@test.com
-Password: password
+- Login endpoint http://localhost:8000/api/login_check
+- Username: admin@test.com
+- Password: password
 
 To generate authentication token
 - **Username**: admin@test.com
